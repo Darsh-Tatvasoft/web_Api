@@ -1,0 +1,9 @@
+using Api.Repository.Models;
+using Api.Repository.ViewModels;
+
+namespace Api.Services.Services.Authentication;
+
+public interface IAuthenticationService
+{
+    Task<(User? User, string? ErrorMessage, string? token)> AuthenticateUser(LoginDetails loginUser);
+}
