@@ -16,5 +16,5 @@ public interface ITokenUtilities
 
     public string? GetJWTToken(HttpRequest request);
     public string? GetRefereshToken(HttpRequest request);
-    public string? GetEmailFromToken(string token);
+    public string? GetEmailFromJWT(string token);
 }

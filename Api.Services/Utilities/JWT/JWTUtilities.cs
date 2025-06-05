@@ -76,9 +76,9 @@ public class TokenUtilities : ITokenUtilities
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateIssuer = true,
                 ValidateAudience = true,
+                ValidateLifetime = false,
                 ValidIssuer = _issuer,
-                ValidAudience = _audience,
-                ClockSkew = TimeSpan.Zero
+                ValidAudience = _audience
             };
             var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
             return principal;
@@ -156,7 +156,7 @@ public class TokenUtilities : ITokenUtilities
 
     public string? GetJWTToken(HttpRequest request)
     {
-        _ = request.Cookies.TryGetValue("JwtToken", out string? token);
+        string? token = request.Cookies["JwtToken"];
         return token;
     }
 
@@ -166,7 +166,7 @@ public class TokenUtilities : ITokenUtilities
         return token;
     }
 
-    public string? GetEmailFromToken(string token)
+    public string? GetEmailFromJWT(string token)
     {
         try
         {

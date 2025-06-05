@@ -10,7 +10,7 @@ CREATE TABLE Books (
     Genre VARCHAR(50),
     Language VARCHAR(50),
     Publisher VARCHAR(100),
-    Price DECIMAL(10, 2) NOT NULL,
+    Price NUMERIC NOT NULL,
     PageCount INT,
     StockQuantity INT DEFAULT 0,
     IsAvailable BOOLEAN DEFAULT TRUE,

@@ -5,6 +5,7 @@ using Api.Repository.Repositories.Users;
 using Microsoft.Extensions.Configuration;
 using Api.Services.Utilities.JWT;
 using Api.Repository.Repositories.Books;
+using AutoMapper;
 
 namespace Api.Services.Services.Books;
 
@@ -14,12 +15,14 @@ public class BookService : IBookService
     private readonly ITokenUtilities _tokenService;
     private readonly IBookRepository _bookRepository;
     private readonly IConfiguration _config;
+    private readonly IMapper _mapper;
 
-    public BookService(IUserRepository userRepository, IBookRepository bookRepository, ITokenUtilities tokenService, IConfiguration config)
+    public BookService(IUserRepository userRepository, IBookRepository bookRepository, ITokenUtilities tokenService, IConfiguration config, IMapper mapper)
     {
         _userRepository = userRepository;
         _bookRepository = bookRepository;
         _tokenService = tokenService;
+        _mapper = mapper;
         _config = config;
     }
 
@@ -51,7 +54,7 @@ public class BookService : IBookService
             var user = _tokenService.ValidateToken(token);
             // if (user == null || !user.IsAdmin)
             //     return (false, "Unauthorized access.");
-            string? email = _tokenService.GetEmailFromToken(token);
+            string? email = _tokenService.GetEmailFromJWT(token);
             User? existingUser = new User();
             if (email != null)
             {
@@ -59,22 +62,23 @@ public class BookService : IBookService
                 if (existingUser == null)
                     return (false, "Unauthorized access.", 0);
             }
-            var book = new Book
-            {
-                Title = bookDetails.Title,
-                Author = bookDetails.Author,
-                Isbn = bookDetails.Isbn,
-                Publisheddate = bookDetails.Publisheddate,
-                Language = bookDetails.Language,
-                Publisher = bookDetails.Publisher,
-                Price = bookDetails.Price,
-                Pagecount = bookDetails.Pagecount,
-                Stockquantity = bookDetails.Stockquantity,
-                Isavailable = bookDetails.Isavailable ?? true,
-                Genre = bookDetails.Genre,
-                Createdat = DateTime.UtcNow,
-                Createdby = existingUser.Id
-            };
+            // var book = new Book
+            // {
+            //     Title = bookDetails.Title,
+            //     Author = bookDetails.Author,
+            //     Isbn = bookDetails.Isbn,
+            //     Publisheddate = bookDetails.Publisheddate,
+            //     Language = bookDetails.Language,
+            //     Publisher = bookDetails.Publisher,
+            //     Price = bookDetails.Price,
+            //     Pagecount = bookDetails.Pagecount,
+            //     Stockquantity = bookDetails.Stockquantity,
+            //     Isavailable = bookDetails.Isavailable ?? true,
+            //     Genre = bookDetails.Genre,
+            //     Createdat = DateTime.UtcNow,
+            //     Createdby = existingUser.Id
+            // };
+            Book book = _mapper.Map<Book>(bookDetails);
 
             (bool? result, int id) = await _bookRepository.AddNewBookData(book);
             return result.HasValue && result == true ? (true, "", id) : (false, "Failed to add new book.", 0);
@@ -96,7 +100,7 @@ public class BookService : IBookService
             var user = _tokenService.ValidateToken(token);
             if (user == null)
                 return (false, "Unauthorized access.");
-            string? email = _tokenService.GetEmailFromToken(token);
+            string? email = _tokenService.GetEmailFromJWT(token);
             User? existingUser = new User();
             if (email != null)
             {
@@ -141,21 +145,23 @@ public class BookService : IBookService
             {
                 return (null, "Book not found.");
             }
-            var bookDetails = new BookDetails
-            {
-                Id = book.Id,
-                Title = book.Title,
-                Author = book.Author,
-                Isbn = book.Isbn,
-                Publisheddate = book.Publisheddate,
-                Language = book.Language,
-                Publisher = book.Publisher,
-                Price = book.Price,
-                Pagecount = book.Pagecount,
-                Stockquantity = book.Stockquantity,
-                Isavailable = book.Isavailable,
-                Genre = book.Genre
-            };
+            // var bookDetails = new BookDetails
+            // {
+            //     Id = book.Id,
+            //     Title = book.Title,
+            //     Author = book.Author,
+            //     Isbn = book.Isbn,
+            //     Publisheddate = book.Publisheddate,
+            //     Language = book.Language,
+            //     Publisher = book.Publisher,
+            //     Price = book.Price,
+            //     Pagecount = book.Pagecount,
+            //     Stockquantity = book.Stockquantity,
+            //     Isavailable = book.Isavailable,
+            //     Genre = book.Genre
+            // };
+            BookDetails bookDetails = _mapper.Map<BookDetails>(book);
+
             return (bookDetails, "");
         }
         catch (Exception ex)
@@ -176,7 +182,7 @@ public class BookService : IBookService
             var user = _tokenService.ValidateToken(token);
             // if (user == null || !user.IsAdmin)
             //     return (false, "Unauthorized access.");
-            string? email = _tokenService.GetEmailFromToken(token);
+            string? email = _tokenService.GetEmailFromJWT(token);
             User? existingUser = new User();
             if (email != null)
             {

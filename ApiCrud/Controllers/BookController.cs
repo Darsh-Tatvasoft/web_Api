@@ -2,13 +2,14 @@ using Api.Repository.Models;
 using Api.Repository.ViewModels;
 // using ApiCrud.Services.Attributes;
 using Api.Services.Services.Books;
+using Api.Services.Attributes;
 using Api.Services.Utilities.JWT;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiCrud.Controllers;
 
 [ApiController]
-[Route("bookController")]
+[Route("api/[controller]")]
 public class BookController : ControllerBase
 {
 
@@ -26,7 +27,7 @@ public class BookController : ControllerBase
     [HttpGet("Books", Name = "GetBooks")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    // [CutomAuth]
+    [CustomAuthorization]
     public async Task<IActionResult> GetBooks()
     {
         (List<Book>? books, string? errorMessage) = await _bookService.GetAllBooksAsync();
@@ -43,7 +44,7 @@ public class BookController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    // [CutomAuth]
+    [CustomAuthorization]
     public async Task<IActionResult> AddBook([FromBody] BookDetails newBook)
     {
         if (!ModelState.IsValid)
@@ -70,6 +71,7 @@ public class BookController : ControllerBase
     [HttpDelete("DeleteBook", Name = "DeleteBook")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [CustomAuthorization]
     public async Task<IActionResult> DeleteBook(int id)
     {
         if (id == 0)
@@ -87,10 +89,28 @@ public class BookController : ControllerBase
     }
 
 
+    [HttpGet("EditBookData", Name = "GetEditBookData")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [CustomAuthorization]
+    public async Task<IActionResult> GetBookData(int id)
+    {
+        (BookDetails? book, string? errorMessage) = await _bookService.GetBookByIdAsync(id);
+        if( errorMessage != "")
+        {
+            return BadRequest(new { Message = errorMessage });
+        }
+        if (book == null)
+        {
+            return NotFound(new { Message = "Book not found." });
+        }
+        return Ok(book);
+    }
 
     [HttpPost("UpdateBook", Name = "UpdateBook")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [CustomAuthorization]
     public async Task<IActionResult> UpdateBook([FromBody] BookDetails book)
     {
         if (!ModelState.IsValid)

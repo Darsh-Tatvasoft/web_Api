@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "kXxvM2sGorZNUCUyuqlfYrMJEEpvRZ4en7z7r3dfaTvXUMMOnFSc6F50K5tEB0tGX1NCSfsZRkwkQ/VR9Nw5Gg==",
+  "dgSpecHash": "Q2CDvwdApWfqc2DX8CjeguQ/66KziNrutZZQ4IO4iw7FcPzt/sHOOEIR9DuK5GXVeE4YpdqEerRVNdQuJXxrdQ==",
   "success": true,
   "projectFilePath": "c:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\Api.Services\\Api.Services.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\pca195\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\pca195\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512",
     "C:\\Users\\pca195\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.18\\microsoft.aspnetcore.authentication.jwtbearer.7.0.18.nupkg.sha512",
     "C:\\Users\\pca195\\.nuget\\packages\\microsoft.aspnetcore.authorization\\7.0.18\\microsoft.aspnetcore.authorization.7.0.18.nupkg.sha512",
@@ -12,7 +13,7 @@
     "C:\\Users\\pca195\\.nuget\\packages\\microsoft.aspnetcore.http.features\\2.3.0\\microsoft.aspnetcore.http.features.2.3.0.nupkg.sha512",
     "C:\\Users\\pca195\\.nuget\\packages\\microsoft.aspnetcore.metadata\\7.0.18\\microsoft.aspnetcore.metadata.7.0.18.nupkg.sha512",
     "C:\\Users\\pca195\\.nuget\\packages\\microsoft.aspnetcore.webutilities\\2.3.0\\microsoft.aspnetcore.webutilities.2.3.0.nupkg.sha512",
-    "C:\\Users\\pca195\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\pca195\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\pca195\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.18\\microsoft.entityframeworkcore.7.0.18.nupkg.sha512",
     "C:\\Users\\pca195\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.18\\microsoft.entityframeworkcore.abstractions.7.0.18.nupkg.sha512",
     "C:\\Users\\pca195\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\7.0.18\\microsoft.entityframeworkcore.analyzers.7.0.18.nupkg.sha512",

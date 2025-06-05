@@ -251,3 +251,5 @@ C:\Users\pca195\Desktop\Project\Web Api Demo\WebApi Project\ApiCrud\obj\Debug\ne
 C:\Users\pca195\Desktop\Project\Web Api Demo\WebApi Project\ApiCrud\obj\Debug\net7.0\ApiCrud.pdb
 C:\Users\pca195\Desktop\Project\Web Api Demo\WebApi Project\ApiCrud\obj\Debug\net7.0\ApiCrud.genruntimeconfig.cache
 C:\Users\pca195\Desktop\Project\Web Api Demo\WebApi Project\ApiCrud\obj\Debug\net7.0\ref\ApiCrud.dll
+C:\Users\pca195\Desktop\Project\Web Api Demo\WebApi Project\ApiCrud\bin\Debug\net7.0\AutoMapper.dll
+C:\Users\pca195\Desktop\Project\Web Api Demo\WebApi Project\ApiCrud\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
