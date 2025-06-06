@@ -18,7 +18,7 @@ public class BookRepository : IBookRepository
     {
         try
         {
-            return await _context.Books.Where(x => x.Isdeleted == false).ToListAsync();
+            return await _context.Books.Where(x => x.Isdeleted == false).OrderBy(x => x.Id).ToListAsync();
         }
         catch (Exception ex)
         {

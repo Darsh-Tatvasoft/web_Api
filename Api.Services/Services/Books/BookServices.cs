@@ -207,5 +207,38 @@ public class BookService : IBookService
         }
     }
 
+    public async Task<(bool Success, string? ErrorMessage)> UpdateAvailabilityAsync(int bookId, bool isAvailable, string token)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(token))
+                return (false, "Token is required.");
+
+            var user = _tokenService.ValidateToken(token);
+            string? email = _tokenService.GetEmailFromJWT(token);
+            User? existingUser = new User();
+            if (email != null)
+            {
+                existingUser = await _userRepository.GetUserByEmailAsync(email);
+                if (existingUser == null)
+                    return (false, "Unauthorized access.");
+            }
+            var book = await _bookRepository.GetBookByIdAsync(bookId);
+            if (book == null)
+                return (false, "Book not found.");
+
+            book.Isavailable = isAvailable;
+            book.Updatedat = DateTime.UtcNow;
+            book.Updatedby = existingUser.Id;
+            bool? result = await _bookRepository.UpdateBookData(book);
+            return result.HasValue && result == true ? (true, "") : (false, "Failed to update book availability.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[UpdateAvailabilityAsync] Error: {ex.Message}");
+            return (false, "Failed to update book availability.");
+        }
+    }
+
 
 }

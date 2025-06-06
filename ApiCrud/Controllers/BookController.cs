@@ -5,6 +5,7 @@ using Api.Services.Services.Books;
 using Api.Services.Attributes;
 using Api.Services.Utilities.JWT;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace ApiCrud.Controllers;
 
@@ -96,7 +97,7 @@ public class BookController : ControllerBase
     public async Task<IActionResult> GetBookData(int id)
     {
         (BookDetails? book, string? errorMessage) = await _bookService.GetBookByIdAsync(id);
-        if( errorMessage != "")
+        if (errorMessage != "")
         {
             return BadRequest(new { Message = errorMessage });
         }
@@ -107,7 +108,7 @@ public class BookController : ControllerBase
         return Ok(book);
     }
 
-    [HttpPost("UpdateBook", Name = "UpdateBook")]
+    [HttpPut("UpdateBook", Name = "UpdateBook")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [CustomAuthorization]
@@ -130,4 +131,28 @@ public class BookController : ControllerBase
         }
         return Ok(new { Id = book.Id, Message = message });
     }
+
+
+
+    [HttpPatch("UpdateAvailability", Name = "UpdateAvailability")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [CustomAuthorization]
+    public async Task<IActionResult> UpdateAvailability(int id, [FromBody] bool isavailable)
+    {
+        if (id <= 0 || !ModelState.IsValid)
+            return BadRequest("Invalid book ID or payload");
+
+        var updated = await _bookService.UpdateAvailabilityAsync(id, isavailable, _tokenService.GetJWTToken(Request) ?? "");
+        if (!updated.Success)
+        {
+            return BadRequest(new { Message = updated.ErrorMessage });
+        }
+        if (updated.ErrorMessage != "")
+        {
+            return BadRequest(new { Message = updated.ErrorMessage });
+        }
+        return Ok();
+    }
+
 }

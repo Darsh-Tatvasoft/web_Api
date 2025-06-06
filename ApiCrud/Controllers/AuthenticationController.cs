@@ -22,6 +22,21 @@ public class AuthenticationController : ControllerBase
     }
 
 
+    // [HttpPost("login", Name = "Login")]
+    // [ProducesResponseType(StatusCodes.Status200OK)]
+    // [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    // public async Task<IActionResult> Login([FromBody] LoginDetails model)
+    // {
+    //     (User? user, string? message, string? token) = await _authenticationService.AuthenticateUser(model);
+    //     if (message != "" || user == null)
+    //     {
+    //         return BadRequest(new { Message = message });
+    //     }
+    //     _tokenService.SaveJWTToken(Response, token ?? "");
+    //     _tokenService.SaveRefreshJWTToken(Response, _tokenService.GenerateRefreshToken(user.Email));
+    //     return Ok(new { Message = "Logged in" });
+    // }
+
     [HttpPost("login", Name = "Login")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -32,9 +47,16 @@ public class AuthenticationController : ControllerBase
         {
             return BadRequest(new { Message = message });
         }
-        _tokenService.SaveJWTToken(Response, token ?? "");
-        _tokenService.SaveRefreshJWTToken(Response, _tokenService.GenerateRefreshToken(user.Email));
-        return Ok(new { Message = "Logged in" });
+
+        string refreshToken = _tokenService.GenerateRefreshToken(user.Email);
+
+        return Ok(new
+        {
+            Message = "Logged in",
+            token,
+            refreshToken
+        });
     }
+
 
 }

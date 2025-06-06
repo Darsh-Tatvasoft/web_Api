@@ -54,6 +54,7 @@ public class TokenUtilities : ITokenUtilities
         {
             HttpOnly = true,
             Secure = true,
+            SameSite = SameSiteMode.None,
             Expires = DateTime.UtcNow.AddDays(7)
         });
     }
@@ -119,6 +120,7 @@ public class TokenUtilities : ITokenUtilities
         {
             HttpOnly = true,
             Secure = true,
+            SameSite = SameSiteMode.None,
             Expires = DateTime.UtcNow.AddDays(7)
         });
     }
@@ -156,13 +158,13 @@ public class TokenUtilities : ITokenUtilities
 
     public string? GetJWTToken(HttpRequest request)
     {
-        string? token = request.Cookies["JwtToken"];
+        string? token = request.Headers["Authorization"].FirstOrDefault()?.Replace("Bearer ", ""); 
         return token;
     }
 
     public string? GetRefereshToken(HttpRequest request)
     {
-        _ = request.Cookies.TryGetValue("RefreshToken", out string? token);
+        string? token = request.Headers["Refresh-Token"].FirstOrDefault();
         return token;
     }
 

@@ -10,4 +10,6 @@ public interface IBookService
     Task<(bool Success, string? ErrorMessage)> UpdateBookAsync(BookDetails book, string token);
     Task<(BookDetails? book, string? ErrorMessage)> GetBookByIdAsync(int bookId);
     Task<(bool Success, string? ErrorMessage)> DeleteBookAsync(int bookId, string token);
+
+    Task<(bool Success, string? ErrorMessage)> UpdateAvailabilityAsync(int bookId, bool isAvailable, string token);
 }
