@@ -35,20 +35,20 @@ public class BookController : ControllerBase
         {
             var books = await _bookService.GetAllBooksAsync();
 
-            return Ok(new
+            return Ok(new ResponseModel
             {
-                data = books,
-                result = true,
-                message = "Books loaded successfully."
+                Data = books,
+                Result = true,
+                Message = "Books loaded successfully."
             });
         }
         catch (Exception ex)
         {
-            return BadRequest(new
+            return BadRequest(new ResponseModel
             {
-                data = new List<Book>(),
-                result = false,
-                message = ex.Message
+                Data = new List<Book>(),
+                Result = false,
+                Message = ex.Message
             });
         }
     }
@@ -64,29 +64,29 @@ public class BookController : ControllerBase
     public async Task<IActionResult> AddBook([FromBody] BookDetails newBook)
     {
         if (!ModelState.IsValid)
-            return BadRequest(new { data = (object?)null, result = false, message = "Invalid model" });
+            return BadRequest(new ResponseModel { Data = new object(), Result = false, Message = "Invalid model" });
 
         if (newBook.Id > 0)
-            return BadRequest(new { data = (object?)null, result = false, message = "Book ID must be 0 for new books." });
+            return BadRequest(new ResponseModel { Data = new object(), Result = false, Message = "Book ID must be 0 for new books." });
 
         try
         {
             int bookId = await _bookService.AddNewBookAsync(newBook, _tokenService.GetJWTToken(Request) ?? "");
 
-            return Ok(new
+            return Ok(new ResponseModel
             {
-                data = new { Id = bookId },
-                result = true,
-                message = "Book added successfully."
+                Data = new { Id = bookId },
+                Result = true,
+                Message = "Book added successfully."
             });
         }
         catch (Exception ex)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, new
+            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseModel
             {
-                data = (object?)null,
-                result = false,
-                message = ex.Message
+                Data = new object(),
+                Result = false,
+                Message = ex.Message
             });
         }
     }
@@ -103,26 +103,26 @@ public class BookController : ControllerBase
     {
         if (id == 0)
         {
-            return BadRequest(new { result = false, message = "Invalid book ID" });
+            return BadRequest(new ResponseModel { Result = false, Message = "Invalid book ID" });
         }
 
         try
         {
             bool isDeleted = await _bookService.DeleteBookAsync(id, _tokenService.GetJWTToken(Request) ?? "");
-            return Ok(new
+            return Ok(new ResponseModel
             {
-                result = isDeleted,
-                message = "Book deleted successfully.",
-                data = new { Id = id }
+                Result = isDeleted,
+                Message = "Book deleted successfully.",
+                Data = new { Id = id }
             });
         }
         catch (Exception ex)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, new
+            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseModel
             {
-                result = false,
-                message = ex.Message,
-                data = new { Id = id }
+                Result = false,
+                Message = ex.Message,
+                Data = new { Id = id }
             });
         }
     }
@@ -138,11 +138,11 @@ public class BookController : ControllerBase
     {
         if (id <= 0)
         {
-            return BadRequest(new
+            return BadRequest(new ResponseModel
             {
-                data = (object?)null,
-                result = false,
-                message = "Invalid book ID."
+                Data = new object(),
+                Result = false,
+                Message = "Invalid book ID."
             });
         }
 
@@ -150,30 +150,30 @@ public class BookController : ControllerBase
         {
             BookDetails book = await _bookService.GetBookByIdAsync(id);
 
-            return Ok(new
+            return Ok(new ResponseModel
             {
-                data = book,
-                result = true,
-                message = "Book loaded successfully."
+                Data = book,
+                Result = true,
+                Message = "Book loaded successfully."
             });
         }
         catch (Exception ex)
         {
             if (ex.Message.Contains("not found", StringComparison.OrdinalIgnoreCase))
             {
-                return NotFound(new
+                return NotFound(new ResponseModel
                 {
-                    data = (object?)null,
-                    result = false,
-                    message = ex.Message
+                    Data = new object(),
+                    Result = false,
+                    Message = ex.Message
                 });
             }
 
-            return StatusCode(StatusCodes.Status500InternalServerError, new
+            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseModel
             {
-                data = (object?)null,
-                result = false,
-                message = ex.Message
+                Data = new object(),
+                Result = false,
+                Message = ex.Message
             });
         }
     }
@@ -188,29 +188,29 @@ public class BookController : ControllerBase
     public async Task<IActionResult> UpdateBook([FromBody] BookDetails book)
     {
         if (!ModelState.IsValid)
-            return BadRequest(new { result = false, message = "Invalid model" });
+            return BadRequest(new ResponseModel { Result = false, Message = "Invalid model" });
 
         if (book.Id == 0)
-            return BadRequest(new { result = false, message = "Book ID is required for update." });
+            return BadRequest(new ResponseModel { Result = false, Message = "Book ID is required for update." });
 
         try
         {
             bool isUpdated = await _bookService.UpdateBookAsync(book, _tokenService.GetJWTToken(Request) ?? "");
 
-            return Ok(new
+            return Ok(new ResponseModel
             {
-                result = isUpdated,
-                data = new { Id = book.Id },
-                message = "Book updated successfully."
+                Result = isUpdated,
+                Data = new { Id = book.Id },
+                Message = "Book updated successfully."
             });
         }
         catch (Exception ex)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, new
+            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseModel
             {
-                result = false,
-                data = (object?)null,
-                message = ex.Message
+                Result = false,
+                Data = new object(),
+                Message = ex.Message
             });
         }
     }
@@ -226,25 +226,25 @@ public class BookController : ControllerBase
     public async Task<IActionResult> UpdateAvailability(int id, [FromBody] bool isavailable)
     {
         if (id <= 0 || !ModelState.IsValid)
-            return BadRequest(new { result = false, message = "Invalid book ID or payload" });
+            return BadRequest(new ResponseModel { Result = false, Message = "Invalid book ID or payload" });
 
         try
         {
             bool updated = await _bookService.UpdateAvailabilityAsync(id, isavailable, _tokenService.GetJWTToken(Request) ?? "");
-            return Ok(new
+            return Ok(new ResponseModel
             {
-                result = updated,
-                message = "Book availability updated successfully.",
-                data = new { Id = id, IsAvailable = isavailable }
+                Result = updated,
+                Message = "Book availability updated successfully.",
+                Data = new { Id = id, IsAvailable = isavailable }
             });
         }
         catch (Exception ex)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, new
+            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseModel
             {
-                result = false,
-                message = ex.Message,
-                data = new { Id = id, IsAvailable = isavailable }
+                Result = false,
+                Message = ex.Message,
+                Data = new { Id = id, IsAvailable = isavailable }
             });
         }
     }

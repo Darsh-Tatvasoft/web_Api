@@ -44,46 +44,46 @@ public class AuthenticationController : ControllerBase
     {
         try
         {
-            var (user, token, refreshToken) = await _authenticationService.AuthenticateUser(model);
+            (User user, string token, string refreshToken) = await _authenticationService.AuthenticateUser(model);
 
-            return Ok(new
+            return Ok(new ResponseModel
             {
-                data = new
+                Data = new 
                 {
                     token,
                     refreshToken
                 },
-                result = true,
-                message = "Logged in"
+                Result = true,
+                Message = "Logged in"
             });
         }
         catch (ArgumentException ex)
         {
-            return BadRequest(new
+            return BadRequest(new ResponseModel
             {
-                data = (object?)null,
-                result = false,
-                message = ex.Message
+                Data = new object(),
+                Result = false,
+                Message = ex.Message
             });
         }
         catch (UnauthorizedAccessException ex)
         {
-            return Unauthorized(new
+            return Unauthorized(new ResponseModel
             {
-                data = (object?)null,
-                result = false,
-                message = ex.Message
+                Data = new object(),
+                Result = false,
+                Message = ex.Message
             });
         }
         catch (Exception ex)
         {
             System.Console.WriteLine($"Error in {nameof(Login)}: {ex.Message}");
             // Log ex for internal diagnostics
-            return StatusCode(StatusCodes.Status500InternalServerError, new
+            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseModel
             {
-                data = (object?)null,
-                result = false,
-                message = "Something went wrong. Please try again later."
+                Data = new object(),
+                Result = false,
+                Message = "Something went wrong. Please try again later."
             });
         }
     }
