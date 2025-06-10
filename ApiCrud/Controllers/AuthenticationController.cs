@@ -42,21 +42,52 @@ public class AuthenticationController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Login([FromBody] LoginDetails model)
     {
-        (User? user, string? message, string? token) = await _authenticationService.AuthenticateUser(model);
-        if (message != "" || user == null)
+        try
         {
-            return BadRequest(new { Message = message });
+            var (user, token, refreshToken) = await _authenticationService.AuthenticateUser(model);
+
+            return Ok(new
+            {
+                data = new
+                {
+                    token,
+                    refreshToken
+                },
+                result = true,
+                message = "Logged in"
+            });
         }
-
-        string refreshToken = _tokenService.GenerateRefreshToken(user.Email);
-
-        return Ok(new
+        catch (ArgumentException ex)
         {
-            Message = "Logged in",
-            token,
-            refreshToken
-        });
+            return BadRequest(new
+            {
+                data = (object?)null,
+                result = false,
+                message = ex.Message
+            });
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new
+            {
+                data = (object?)null,
+                result = false,
+                message = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            System.Console.WriteLine($"Error in {nameof(Login)}: {ex.Message}");
+            // Log ex for internal diagnostics
+            return StatusCode(StatusCodes.Status500InternalServerError, new
+            {
+                data = (object?)null,
+                result = false,
+                message = "Something went wrong. Please try again later."
+            });
+        }
     }
+
 
 
 }

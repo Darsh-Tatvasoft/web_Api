@@ -27,17 +27,32 @@ public class BookController : ControllerBase
 
     [HttpGet("Books", Name = "GetBooks")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [CustomAuthorization]
     public async Task<IActionResult> GetBooks()
     {
-        (List<Book>? books, string? errorMessage) = await _bookService.GetAllBooksAsync();
-        if (books?.Count == 0)
+        try
         {
-            return BadRequest();
+            var books = await _bookService.GetAllBooksAsync();
+
+            return Ok(new
+            {
+                data = books,
+                result = true,
+                message = "Books loaded successfully."
+            });
         }
-        return Ok(books);
+        catch (Exception ex)
+        {
+            return BadRequest(new
+            {
+                data = new List<Book>(),
+                result = false,
+                message = ex.Message
+            });
+        }
     }
+
 
 
 
@@ -49,110 +64,189 @@ public class BookController : ControllerBase
     public async Task<IActionResult> AddBook([FromBody] BookDetails newBook)
     {
         if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
+            return BadRequest(new { data = (object?)null, result = false, message = "Invalid model" });
+
         if (newBook.Id > 0)
+            return BadRequest(new { data = (object?)null, result = false, message = "Book ID must be 0 for new books." });
+
+        try
         {
-            return BadRequest();
+            int bookId = await _bookService.AddNewBookAsync(newBook, _tokenService.GetJWTToken(Request) ?? "");
+
+            return Ok(new
+            {
+                data = new { Id = bookId },
+                result = true,
+                message = "Book added successfully."
+            });
         }
-        bool isAdded;
-        int id;
-        string? message;
-        (isAdded, message, id) = await _bookService.AddNewBookAsync(newBook, _tokenService.GetJWTToken(Request) ?? "");
-        if (!isAdded)
+        catch (Exception ex)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError);
+            return StatusCode(StatusCodes.Status500InternalServerError, new
+            {
+                data = (object?)null,
+                result = false,
+                message = ex.Message
+            });
         }
-        return Ok(new { Id = id, Message = message });
     }
+
 
 
 
     [HttpDelete("DeleteBook", Name = "DeleteBook")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [CustomAuthorization]
     public async Task<IActionResult> DeleteBook(int id)
     {
         if (id == 0)
         {
-            return BadRequest();
+            return BadRequest(new { result = false, message = "Invalid book ID" });
         }
-        bool isDeleted;
-        string? message;
-        (isDeleted, message) = await _bookService.DeleteBookAsync(id, _tokenService.GetJWTToken(Request) ?? "");
-        if (!isDeleted)
+
+        try
         {
-            return BadRequest(new { Id = id, Message = message });
+            bool isDeleted = await _bookService.DeleteBookAsync(id, _tokenService.GetJWTToken(Request) ?? "");
+            return Ok(new
+            {
+                result = isDeleted,
+                message = "Book deleted successfully.",
+                data = new { Id = id }
+            });
         }
-        return Ok(new { Id = id, Message = message });
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, new
+            {
+                result = false,
+                message = ex.Message,
+                data = new { Id = id }
+            });
+        }
     }
 
 
     [HttpGet("EditBookData", Name = "GetEditBookData")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [CustomAuthorization]
     public async Task<IActionResult> GetBookData(int id)
     {
-        (BookDetails? book, string? errorMessage) = await _bookService.GetBookByIdAsync(id);
-        if (errorMessage != "")
+        if (id <= 0)
         {
-            return BadRequest(new { Message = errorMessage });
+            return BadRequest(new
+            {
+                data = (object?)null,
+                result = false,
+                message = "Invalid book ID."
+            });
         }
-        if (book == null)
+
+        try
         {
-            return NotFound(new { Message = "Book not found." });
+            BookDetails book = await _bookService.GetBookByIdAsync(id);
+
+            return Ok(new
+            {
+                data = book,
+                result = true,
+                message = "Book loaded successfully."
+            });
         }
-        return Ok(book);
+        catch (Exception ex)
+        {
+            if (ex.Message.Contains("not found", StringComparison.OrdinalIgnoreCase))
+            {
+                return NotFound(new
+                {
+                    data = (object?)null,
+                    result = false,
+                    message = ex.Message
+                });
+            }
+
+            return StatusCode(StatusCodes.Status500InternalServerError, new
+            {
+                data = (object?)null,
+                result = false,
+                message = ex.Message
+            });
+        }
     }
+
+
 
     [HttpPut("UpdateBook", Name = "UpdateBook")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [CustomAuthorization]
     public async Task<IActionResult> UpdateBook([FromBody] BookDetails book)
     {
         if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
+            return BadRequest(new { result = false, message = "Invalid model" });
+
         if (book.Id == 0)
+            return BadRequest(new { result = false, message = "Book ID is required for update." });
+
+        try
         {
-            return BadRequest();
+            bool isUpdated = await _bookService.UpdateBookAsync(book, _tokenService.GetJWTToken(Request) ?? "");
+
+            return Ok(new
+            {
+                result = isUpdated,
+                data = new { Id = book.Id },
+                message = "Book updated successfully."
+            });
         }
-        bool isUpdate;
-        string? message;
-        (isUpdate, message) = await _bookService.UpdateBookAsync(book, _tokenService.GetJWTToken(Request) ?? "");
-        if (!isUpdate)
+        catch (Exception ex)
         {
-            return BadRequest(new { Id = book.Id, Message = message });
+            return StatusCode(StatusCodes.Status500InternalServerError, new
+            {
+                result = false,
+                data = (object?)null,
+                message = ex.Message
+            });
         }
-        return Ok(new { Id = book.Id, Message = message });
     }
+
 
 
 
     [HttpPatch("UpdateAvailability", Name = "UpdateAvailability")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [CustomAuthorization]
     public async Task<IActionResult> UpdateAvailability(int id, [FromBody] bool isavailable)
     {
         if (id <= 0 || !ModelState.IsValid)
-            return BadRequest("Invalid book ID or payload");
+            return BadRequest(new { result = false, message = "Invalid book ID or payload" });
 
-        var updated = await _bookService.UpdateAvailabilityAsync(id, isavailable, _tokenService.GetJWTToken(Request) ?? "");
-        if (!updated.Success)
+        try
         {
-            return BadRequest(new { Message = updated.ErrorMessage });
+            bool updated = await _bookService.UpdateAvailabilityAsync(id, isavailable, _tokenService.GetJWTToken(Request) ?? "");
+            return Ok(new
+            {
+                result = updated,
+                message = "Book availability updated successfully.",
+                data = new { Id = id, IsAvailable = isavailable }
+            });
         }
-        if (updated.ErrorMessage != "")
+        catch (Exception ex)
         {
-            return BadRequest(new { Message = updated.ErrorMessage });
+            return StatusCode(StatusCodes.Status500InternalServerError, new
+            {
+                result = false,
+                message = ex.Message,
+                data = new { Id = id, IsAvailable = isavailable }
+            });
         }
-        return Ok();
     }
 
 }

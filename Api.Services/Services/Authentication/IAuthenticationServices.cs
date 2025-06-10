@@ -5,5 +5,5 @@ namespace Api.Services.Services.Authentication;
 
 public interface IAuthenticationService
 {
-    Task<(User? User, string? ErrorMessage, string? token)> AuthenticateUser(LoginDetails loginUser);
+    Task<(User User, string Token, string RefreshToken)> AuthenticateUser(LoginDetails loginUser);
 }

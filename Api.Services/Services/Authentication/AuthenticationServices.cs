@@ -20,31 +20,24 @@ public class AuthenticationService : IAuthenticationService
         _config = config;
     }
 
-    public async Task<(User? User, string? ErrorMessage, string? token)> AuthenticateUser(LoginDetails loginUser)
+    public async Task<(User User, string Token, string RefreshToken)> AuthenticateUser(LoginDetails loginUser)
     {
-        try
-        {
-            if (string.IsNullOrEmpty(loginUser.Email))
-                return (null, "Email is required.", "");
-            if (string.IsNullOrEmpty(loginUser.Password))
-                return (null, "Password is required.", "");
+        if (string.IsNullOrWhiteSpace(loginUser.Email))
+            throw new ArgumentException("Email is required.");
 
-            var user = await _userRepository.GetUserByEmailAsync(loginUser.Email);
-            if (user == null)
-                return (null, "User not found.", "");
+        if (string.IsNullOrWhiteSpace(loginUser.Password))
+            throw new ArgumentException("Password is required.");
 
+        var user = await _userRepository.GetUserByEmailAsync(loginUser.Email);
+        if (user == null)
+            throw new UnauthorizedAccessException("User not found.");
 
-            // await _userRepository.UpdateUserAsync(user);
+        if (!BCrypt.Net.BCrypt.Verify(loginUser.Password, user.Password))
+            throw new UnauthorizedAccessException("Invalid password.");
 
-            if (!BCrypt.Net.BCrypt.Verify(loginUser.Password, user.Password))
-                return (null, "Invalid password.", "");
+        string token = _tokenService.GenerateJwtToken(user);
+        string refreshToken = _tokenService.GenerateRefreshToken(user.Email);
 
-            return (user, "", _tokenService.GenerateJwtToken(user));
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"[AuthenticateUser] Error: {ex.Message}");
-            return (null, "Something went wrong. Please try again later.", "");
-        }
+        return (user, token, refreshToken);
     }
 }

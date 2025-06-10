@@ -6175,11 +6175,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\Api.Services\\Api.Services.csproj",
+      "projectUniqueName": "C:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\Api.Services\\Api.Services.csproj",
       "projectName": "Api.Services",
-      "projectPath": "c:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\Api.Services\\Api.Services.csproj",
+      "projectPath": "C:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\Api.Services\\Api.Services.csproj",
       "packagesPath": "C:\\Users\\pca195\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\Api.Services\\obj\\",
+      "outputPath": "C:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\Api.Services\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\pca195\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -6194,8 +6194,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "c:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\Api.Repository\\Api.Repository.csproj": {
-              "projectPath": "c:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\Api.Repository\\Api.Repository.csproj"
+            "C:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\Api.Repository\\Api.Repository.csproj": {
+              "projectPath": "C:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\Api.Repository\\Api.Repository.csproj"
             }
           }
         }
