@@ -48,7 +48,7 @@ public class AuthenticationController : ControllerBase
 
             return Ok(new ResponseModel
             {
-                Data = new 
+                Data = new
                 {
                     token,
                     refreshToken
@@ -88,6 +88,55 @@ public class AuthenticationController : ControllerBase
         }
     }
 
+    [HttpPost("register", Name = "Register")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Register([FromBody] CreateUserVM model)
+    {
+        try
+        {
+            (User user, string token, string refreshToken) = await _authenticationService.RegisterUser(model);
 
+            return Ok(new ResponseModel
+            {
+                Data = new
+                {
+                    token,
+                    refreshToken
+                },
+                Result = true,
+                Message = "User registered successfully"
+            });
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new ResponseModel
+            {
+                Data = new object(),
+                Result = false,
+                Message = ex.Message
+            });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new ResponseModel
+            {
+                Data = new object(),
+                Result = false,
+                Message = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            System.Console.WriteLine($"Error in {nameof(Register)}: {ex.Message}");
+            // Log ex for internal diagnostics
+            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseModel
+            {
+                Data = new object(),
+                Result = false,
+                Message = "Something went wrong. Please try again later."
+            });
+        }
+    }
 
 }

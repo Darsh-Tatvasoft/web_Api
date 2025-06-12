@@ -75,4 +75,17 @@ public class BookRepository : IBookRepository
             return null;
         }
     }
+
+    public async Task<Book?> GetBookByIsbnAsync(string Isbn)
+    {
+        try
+        {
+            return await _context.Books.FirstOrDefaultAsync(b => b.Isbn == Isbn && b.Isdeleted == false);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[GetBookByIsbnAsync] Error: {ex.Message}");
+            return null;
+        }
+    }
 }

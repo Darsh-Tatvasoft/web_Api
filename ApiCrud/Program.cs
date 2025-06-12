@@ -7,6 +7,7 @@ using Api.Services.Utilities.JWT;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using AutoMapper;
+using Api.Services.Services.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,7 @@ builder.Services.AddScoped<IBookRepository, BookRepository>();
 
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenUtilities, TokenUtilities>();
 
 // ------------------ AutoMapper & Controllers ------------------

@@ -49,7 +49,14 @@ public class BookService : IBookService
         if (string.IsNullOrEmpty(email))
             throw new Exception("Unauthorized access.");
 
-        var existingUser = await _userRepository.GetUserByEmailAsync(email);
+        if (bookDetails == null)
+            throw new ArgumentNullException(nameof(bookDetails), "Book details cannot be null.");
+        if (string.IsNullOrEmpty(bookDetails.Isbn))
+            throw new ArgumentException("ISBN cannot be null or empty.", nameof(bookDetails.Isbn));
+        Book? existingBook = await _bookRepository.GetBookByIsbnAsync(bookDetails.Isbn);
+        if (existingBook != null)
+            throw new Exception("A book with this ISBN already exists.");
+        User? existingUser = await _userRepository.GetUserByEmailAsync(email);
         if (existingUser != null)
         {
             Book book = _mapper.Map<Book>(bookDetails);
