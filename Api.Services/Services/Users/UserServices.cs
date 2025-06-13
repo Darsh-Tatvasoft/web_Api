@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Api.Repository.Repositories.Users;
 using Api.Repository.ViewModels;
 using Api.Repository.Models;
+using AutoMapper;
 
 namespace Api.Services.Services.Users
 {
@@ -12,44 +13,42 @@ namespace Api.Services.Services.Users
     {
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _config;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, IConfiguration config)
+        public UserService(IUserRepository userRepository, IMapper mapper, IConfiguration config)
         {
             _userRepository = userRepository;
             _config = config;
+            _mapper = mapper;
         }
 
         public async Task<UsersVM?> GetUserListData(string? searchTerm, int pageSize = 5, int pageNumber = 1)
         {
-            searchTerm = searchTerm ?? "";
-            int totalRecords = await _userRepository.GetTotalRecordsAsync();
-            if (searchTerm != "")
-            {
-                totalRecords = await _userRepository.GetTotalRecordsForSearchAsync(searchTerm);
-            }
+            searchTerm ??= "";
+
+            int totalRecords = searchTerm != ""
+                ? await _userRepository.GetTotalRecordsForSearchAsync(searchTerm)
+                : await _userRepository.GetTotalRecordsAsync();
 
             if (totalRecords == 0)
-            {
                 throw new Exception("No records found for the given search term.");
-            }
 
             int totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
             pageNumber = Math.Max(1, Math.Min(pageNumber, Math.Max(1, totalPages)));
-            List<User>? users = await _userRepository.GetPaginatedUserOrderByListAsync(pageNumber, pageSize, searchTerm);
-            if (users?.Count() == 0)
-            {
+
+            var users = await _userRepository.GetPaginatedUserOrderByListAsync(pageNumber, pageSize, searchTerm);
+            if (users?.Count == 0)
                 throw new Exception("No users found for the given search term.");
-            }
-            var paginationData = new UsersVM
+
+            var userDetails = _mapper.Map<List<UserDetails>>(users);
+
+            return new UsersVM
             {
-                Users = users,
+                Users = userDetails,
                 TotalRecords = totalRecords,
                 PageNumber = pageNumber,
                 PageSize = pageSize
             };
-
-            return paginationData;
-
         }
 
         // public async Task<(User? user, string? ErrorMessage)> GetUserDetails(int Id)
