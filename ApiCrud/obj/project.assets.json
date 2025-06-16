@@ -11579,11 +11579,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\ApiCrud\\ApiCrud.csproj",
+      "projectUniqueName": "c:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\ApiCrud\\ApiCrud.csproj",
       "projectName": "ApiCrud",
-      "projectPath": "C:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\ApiCrud\\ApiCrud.csproj",
+      "projectPath": "c:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\ApiCrud\\ApiCrud.csproj",
       "packagesPath": "C:\\Users\\pca195\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\ApiCrud\\obj\\",
+      "outputPath": "c:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\ApiCrud\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\pca195\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -11598,8 +11598,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\Api.Services\\Api.Services.csproj": {
-              "projectPath": "C:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\Api.Services\\Api.Services.csproj"
+            "c:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\Api.Services\\Api.Services.csproj": {
+              "projectPath": "c:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\Api.Services\\Api.Services.csproj"
             }
           }
         }
