@@ -51,7 +51,7 @@ public class AuthenticationService : IAuthenticationService
         if (string.IsNullOrWhiteSpace(createUser.Password))
             throw new ArgumentException("Password is required.");
 
-        if(createUser.Password != createUser.ConfirmPassword)
+        if (createUser.Password != createUser.ConfirmPassword)
             throw new ArgumentException("Passwords do not match.");
 
         var existingUser = await _userRepository.GetUserByEmailAsync(createUser.Email);
@@ -76,4 +76,21 @@ public class AuthenticationService : IAuthenticationService
 
         return (user, token, refreshToken);
     }
+
+
+    public async Task<(string Token, string RefreshToken)> GetNewTokens(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email))
+            throw new ArgumentException("Email is required.");
+
+        var user = await _userRepository.GetUserByEmailAsync(email);
+        if (user == null)
+            throw new UnauthorizedAccessException("User not found.");
+
+        string token = _tokenService.GenerateJwtToken(user);
+        string refreshToken = _tokenService.GenerateRefreshToken(user.Email);
+
+        return (token, refreshToken);
+    }
+    
 }

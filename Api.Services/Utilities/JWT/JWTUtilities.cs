@@ -77,9 +77,9 @@ public class TokenUtilities : ITokenUtilities
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateIssuer = true,
                 ValidateAudience = true,
-                ValidateLifetime = false,
                 ValidIssuer = _issuer,
-                ValidAudience = _audience
+                ValidAudience = _audience,
+                // ClockSkew = TimeSpan.Zero
             };
             var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
             return principal;
@@ -145,7 +145,6 @@ public class TokenUtilities : ITokenUtilities
                 ValidateAudience = true,
                 ValidIssuer = _issuer,
                 ValidAudience = _audience,
-                ClockSkew = TimeSpan.Zero
             };
             var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
             return principal;

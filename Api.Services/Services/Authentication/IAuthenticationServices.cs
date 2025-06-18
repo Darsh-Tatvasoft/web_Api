@@ -8,4 +8,6 @@ public interface IAuthenticationService
     Task<(User User, string Token, string RefreshToken)> AuthenticateUser(LoginDetails loginUser);
 
     Task<(User User, string Token, string RefreshToken)> RegisterUser(CreateUserVM createUser);
+
+    Task<(string Token, string RefreshToken)> GetNewTokens(string email);
 }
