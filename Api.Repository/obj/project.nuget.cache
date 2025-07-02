@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "V4I6C/2ySGburkazx2cGTDQXQbf6vTdIaULIwdwNrYB3/K2GTWEI+5O7/2YCz2DtKOs1q6FkMHRCzR9TFRDsWQ==",
+  "dgSpecHash": "HfWVzy4ZRS3c+zYE4fqJB49A/Al5LHV0jTbMeEO8QSbyvpsV3KVVaiJm+a4iAyeyk72bB085tQtMA4nBMlw2OQ==",
   "success": true,
-  "projectFilePath": "c:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\Api.Repository\\Api.Repository.csproj",
+  "projectFilePath": "C:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\Api.Repository\\Api.Repository.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\pca195\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\pca195\\.nuget\\packages\\microsoft.aspnetcore.http\\2.3.0\\microsoft.aspnetcore.http.2.3.0.nupkg.sha512",
@@ -107,7 +107,10 @@
     "C:\\Users\\pca195\\.nuget\\packages\\system.threading.tasks.extensions\\4.3.0\\system.threading.tasks.extensions.4.3.0.nupkg.sha512",
     "C:\\Users\\pca195\\.nuget\\packages\\system.threading.timer\\4.3.0\\system.threading.timer.4.3.0.nupkg.sha512",
     "C:\\Users\\pca195\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
-    "C:\\Users\\pca195\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512"
+    "C:\\Users\\pca195\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
+    "C:\\Users\\pca195\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.14\\microsoft.netcore.app.ref.7.0.14.nupkg.sha512",
+    "C:\\Users\\pca195\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.14\\microsoft.windowsdesktop.app.ref.7.0.14.nupkg.sha512",
+    "C:\\Users\\pca195\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.14\\microsoft.aspnetcore.app.ref.7.0.14.nupkg.sha512"
   ],
   "logs": []
 }

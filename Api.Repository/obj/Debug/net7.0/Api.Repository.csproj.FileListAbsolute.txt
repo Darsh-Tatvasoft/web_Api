@@ -12,3 +12,4 @@ C:\Users\pca195\Desktop\Project\Web Api Demo\WebApi Project\Api.Repository\obj\D
 C:\Users\pca195\Desktop\Project\Web Api Demo\WebApi Project\Api.Repository\obj\Debug\net7.0\Api.Repository.pdb
 C:\Users\pca195\Desktop\Project\Web Api Demo\WebApi Project\Api.Repository\obj\Debug\net7.0\Api.Repository.genruntimeconfig.cache
 C:\Users\pca195\Desktop\Project\Web Api Demo\WebApi Project\Api.Repository\obj\Debug\net7.0\ref\Api.Repository.dll
+C:\Users\pca195\Desktop\Project\Web Api Demo\WebApi Project\Api.Repository\obj\Debug\net7.0\Api.Repository.sourcelink.json

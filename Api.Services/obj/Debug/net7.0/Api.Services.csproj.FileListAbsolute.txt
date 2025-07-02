@@ -13,3 +13,4 @@ C:\Users\pca195\Desktop\Project\Web Api Demo\WebApi Project\Api.Services\obj\Deb
 C:\Users\pca195\Desktop\Project\Web Api Demo\WebApi Project\Api.Services\obj\Debug\net7.0\refint\Api.Services.dll
 C:\Users\pca195\Desktop\Project\Web Api Demo\WebApi Project\Api.Services\obj\Debug\net7.0\Api.Services.pdb
 C:\Users\pca195\Desktop\Project\Web Api Demo\WebApi Project\Api.Services\obj\Debug\net7.0\ref\Api.Services.dll
+C:\Users\pca195\Desktop\Project\Web Api Demo\WebApi Project\Api.Services\obj\Debug\net7.0\Api.Services.sourcelink.json

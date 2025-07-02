@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/2s4SzkDqO8GhwsDwjPDwRU4oQvww8ejh4uSvbfdSS5JX9DDHlr+KZ6upyuFsBgNoh2EEIGM5AcR9xa2QstXZw==",
+  "dgSpecHash": "5pMR1597XL/7cNH5mRlojX6x63ZtHVb3KUl1vIB5lQlUvnP6TDuPMMBBZ4zI1xdoQsIuEHsPqRcvuaSWeSvpRQ==",
   "success": true,
-  "projectFilePath": "c:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\ApiCrud\\ApiCrud.csproj",
+  "projectFilePath": "C:\\Users\\pca195\\Desktop\\Project\\Web Api Demo\\WebApi Project\\ApiCrud\\ApiCrud.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\pca195\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\pca195\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\7.0.0\\automapper.extensions.microsoft.dependencyinjection.7.0.0.nupkg.sha512",
@@ -232,7 +232,11 @@
     "C:\\Users\\pca195\\.nuget\\packages\\system.threading.timer\\4.3.0\\system.threading.timer.4.3.0.nupkg.sha512",
     "C:\\Users\\pca195\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512",
     "C:\\Users\\pca195\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
-    "C:\\Users\\pca195\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512"
+    "C:\\Users\\pca195\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
+    "C:\\Users\\pca195\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.14\\microsoft.netcore.app.ref.7.0.14.nupkg.sha512",
+    "C:\\Users\\pca195\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.14\\microsoft.windowsdesktop.app.ref.7.0.14.nupkg.sha512",
+    "C:\\Users\\pca195\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.14\\microsoft.aspnetcore.app.ref.7.0.14.nupkg.sha512",
+    "C:\\Users\\pca195\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\7.0.14\\microsoft.netcore.app.host.win-x64.7.0.14.nupkg.sha512"
   ],
   "logs": []
 }
